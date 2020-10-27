@@ -1,5 +1,7 @@
 import React from "react";
+import { ProvideAuth } from "./hooks/useAuth";
 import useAsync from "./hooks/useAsync";
+import Navbar from "./components/Navbar";
 
 const myFunction = (): Promise<string> => {
 	return new Promise((resolve, reject) => {
@@ -30,13 +32,16 @@ const App: React.FC = () => {
 	}
 
 	return (
-		<div className="App">
-			<h1>Hello world</h1>
-			{content}
-			<button onClick={execute} disabled={status === "pending"}>
-				{status !== "pending" ? "Click me" : "Loading..."}
-			</button>
-		</div>
+		<ProvideAuth>
+			<div className="App">
+				<h1>Hello world</h1>
+				<Navbar />
+				{content}
+				<button onClick={execute} disabled={status === "pending"}>
+					{status !== "pending" ? "Click me" : "Loading..."}
+				</button>
+			</div>
+		</ProvideAuth>
 	);
 };
 
