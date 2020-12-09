@@ -1,11 +1,17 @@
 import React, { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "../hooks/useRouter";
 
 const Navbar: React.FC = () => {
 	const auth = useAuth();
+	const router = useRouter();
 
 	useEffect(() => {
-		console.log(auth);
+		if (auth && !auth.user) {
+			router.push("/");
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [auth]);
 
 	let content = null;
@@ -14,7 +20,10 @@ const Navbar: React.FC = () => {
 			<button
 				style={{ display: "block" }}
 				type="button"
-				onClick={() => auth!.signin("email", "pass")}
+				onClick={() => {
+					auth!.signin("email", "pass");
+					router.push("/dashboard");
+				}}
 			>
 				Signin
 			</button>
@@ -22,11 +31,14 @@ const Navbar: React.FC = () => {
 	} else {
 		content = (
 			<>
-				<a href="/account">Account ({auth.user!.email})</a>
+				<p>Account ({auth.user!.email})</p>
 				<button
 					style={{ display: "block" }}
 					type="button"
-					onClick={() => auth!.signount()}
+					onClick={() => {
+						auth!.signount();
+						router.push("/");
+					}}
 				>
 					Signout
 				</button>
@@ -36,8 +48,10 @@ const Navbar: React.FC = () => {
 
 	return (
 		<section>
-			<a href="/about">About</a>
-			<a href="/contact">Contact</a>
+			<NavLink style={{ display: "block" }} to="/dashboard">
+				Dashboard
+			</NavLink>
+			<NavLink to="/">Main</NavLink>
 			{content}
 		</section>
 	);
