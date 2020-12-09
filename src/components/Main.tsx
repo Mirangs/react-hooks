@@ -1,5 +1,6 @@
 import React from "react";
 import useAsync from "../hooks/useAsync";
+import Counter from "./Counter";
 
 const myFunction = (): Promise<string> => {
 	return new Promise((resolve, reject) => {
@@ -32,6 +33,7 @@ const Main = () => {
 		<div className="App">
 			<h1>Hello world</h1>
 			{content}
+			<Counter />
 			<button
 				type="button"
 				onClick={execute}
